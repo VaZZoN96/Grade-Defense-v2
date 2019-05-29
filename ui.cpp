@@ -35,26 +35,27 @@ void UI::main_menu()
 
 void UI::tower_menu()
 {
-
-}
-
-void UI::tower_menu_show()
-{
-	active_ = tower;
+	buttons_build_.emplace_back(std::make_unique<Button>(800, 50, 150, 50, att));
+	buttons_build_.emplace_back(std::make_unique<Button>(975, 50, 150, 50, attspeed));
+	buttons_build_.emplace_back(std::make_unique<Button>(800, 125, 150, 50, range));
+	buttons_build_.emplace_back(std::make_unique<Button>(975, 125, 150, 50, rot));
 }
 
 void UI::build_menu()
 {
-
-}
-
-void UI::build_menu_show()
-{
-	active_ = build;
+	buttons_build_.emplace_back(std::make_unique<Button>(800, 50, 150, 50, machine));
+	buttons_build_.emplace_back(std::make_unique<Button>(975, 50, 150, 50, rocket));
+	buttons_build_.emplace_back(std::make_unique<Button>(800, 125, 150, 50, light));
+	buttons_build_.emplace_back(std::make_unique<Button>(975, 125, 150, 50, laser));
+	buttons_build_.emplace_back(std::make_unique<Button>(800, 200, 150, 50, flame));
+	buttons_build_.emplace_back(std::make_unique<Button>(975, 200, 150, 50, gauss));
+	buttons_build_.emplace_back(std::make_unique<Button>(800, 275, 150, 50, slower));
+	buttons_build_.emplace_back(std::make_unique<Button>(975, 275, 150, 50, emp));
 }
 
 void UI::step(sf::RenderWindow &window)
 {
+	std::cout<<active_<<std::endl;
 	if(active_ == mai)
 	{
 		for(unsigned int i=0; i<buttons_main_.size(); i++)
@@ -93,6 +94,7 @@ void UI::step(sf::RenderWindow &window)
 	}
 	else if(active_ == build)
 	{
+		//receive tile x and y and create tower correspondend to button function
 		for(unsigned int i=0; i<buttons_build_.size(); i++)
 		{
 			Button &buttons = dynamic_cast<Button &>(*buttons_build_[i]);
@@ -109,4 +111,9 @@ Menu UI::get_scene()
 Menu UI::get_active()
 {
 	return active_;
+}
+
+void UI::set_active(Menu active)
+{
+	active_ = active;
 }

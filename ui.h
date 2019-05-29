@@ -19,14 +19,12 @@ public:
 	sf::Vector2f get_mouse_cords();
 
 	void main_menu(); //Prepare main menu
-	void main_menu_show();
 	void tower_menu(); //Prepare tower menu
-	void tower_menu_show();
 	void build_menu(); //Prepare build menu
-	void build_menu_show();
 	void step(sf::RenderWindow &window);
 	Menu get_scene();
 	Menu get_active();
+	void set_active(Menu active);
 private:
 	int button_pushed_ = 0;
 	float x_button_ = 0;
