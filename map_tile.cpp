@@ -8,6 +8,9 @@ Map_tile::Map_tile(int xid, int yid, unsigned int type, std::vector<sf::Texture>
 	setPosition(x_, y_);
 }
 
+Map_tile::~Map_tile()
+{}
+
 int Map_tile::get_xid()
 {
 	return xid_;

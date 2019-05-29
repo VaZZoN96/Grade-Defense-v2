@@ -24,6 +24,7 @@ class Map_tile : public sf::Sprite
 {
 public:
 	Map_tile(int xid, int yid, unsigned int type, std::vector<sf::Texture> textures);
+	virtual ~Map_tile();
 	int get_xid();
 	int get_yid();
 	int get_x();
