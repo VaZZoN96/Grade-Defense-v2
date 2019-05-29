@@ -3,6 +3,7 @@
 
 #include "map_tile.h"
 #include "player.h"
+#include "ui.h"
 #include <iostream>
 
 class Mapa

@@ -96,7 +96,7 @@ int main() {
 	std::vector<std::unique_ptr<Tower>> towers;
 	std::vector<std::unique_ptr<Unit>> enemies;
 
-
+	UI ui;
 	Player player;
 	Mapa mapa(textures, player);
 
