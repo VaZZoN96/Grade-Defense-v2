@@ -1,7 +1,7 @@
 #include "mapa.h"
 
-Mapa::Mapa(std::vector<sf::Texture> &textures, Player &player)
-	: textures_(textures), player_(player)
+Mapa::Mapa(std::vector<sf::Texture> &textures, UI &ui)
+	: textures_(textures), ui_(ui)
 {
 	/*for(int i=0; i<20; i++)
 	{
@@ -73,7 +73,7 @@ void Mapa::ver1()
 
 void Mapa::step(sf::RenderWindow &window)
 {
-	if(player_.get_button_pushed() == 1)
+	if(ui_.get_mouse_button_pushed() == 1)
 	{
 		for(unsigned int i=0; i<tiles_.size(); i++)
 		{
@@ -81,9 +81,9 @@ void Mapa::step(sf::RenderWindow &window)
 
 			sf::FloatRect tile_bounds = tile.getGlobalBounds();
 
-			if( (player_.get_mouse_cords().x >= tile_bounds.left) && (player_.get_mouse_cords().x <= tile_bounds.left + tile_bounds.width) )
+			if( (ui_.get_mouse_cords().x >= tile_bounds.left) && (ui_.get_mouse_cords().x <= tile_bounds.left + tile_bounds.width) )
 			{
-				if(player_.get_mouse_cords().y >= tile_bounds.top && player_.get_mouse_cords().y <= tile_bounds.top + tile_bounds.height)
+				if(ui_.get_mouse_cords().y >= tile_bounds.top && ui_.get_mouse_cords().y <= tile_bounds.top + tile_bounds.height)
 				{
 					//TODO MOUSE DOING THINGS
 					if(tile.get_type() == 0)
@@ -104,7 +104,7 @@ void Mapa::step(sf::RenderWindow &window)
 				}
 			}
 		}
-		player_.reset_button_pushed();
+		ui_.reset_mouse_button_pushed();
 	}
 
 	for(unsigned int i=0; i<tiles_.size(); i++)
