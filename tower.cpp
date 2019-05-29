@@ -4,3 +4,6 @@ Tower::Tower()
 {
 
 }
+
+Tower::~Tower()
+{}
