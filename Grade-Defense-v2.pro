@@ -12,7 +12,8 @@ SOURCES += \
     player.cpp \
     map_tile.cpp \
     mapa.cpp \
-    ui.cpp
+    ui.cpp \
+    button.cpp
 INCLUDEPATH += "$$(onedrive)\QT\SFML-2.5.1/include"
 
 LIBS += -L"$$(onedrive)\QT\SFML-2.5.1/lib"
@@ -30,4 +31,5 @@ HEADERS += \
     player.h \
     map_tile.h \
     mapa.h \
-    ui.h
+    ui.h \
+    button.h
