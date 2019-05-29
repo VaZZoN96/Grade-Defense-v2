@@ -4,7 +4,9 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
-enum Button_function { new_game, options };
+enum Button_function { new_game, options,
+					   machine, rocket, light, laser, flame, gauss, slower, emp,
+					   att, attspeed, range, rot};
 
 class Button : public sf::RectangleShape
 {
