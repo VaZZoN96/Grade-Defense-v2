@@ -40,7 +40,7 @@ Collision detection
 
 int main() {
 	// create the window
-	sf::RenderWindow window(sf::VideoMode(1200, 675), "Grade defense");
+	sf::RenderWindow window(sf::VideoMode(1200, 700), "Grade defense");
 	//window.setFramerateLimit(60);
 	window.setVerticalSyncEnabled(true);
 
@@ -97,8 +97,9 @@ int main() {
 	std::vector<std::unique_ptr<Unit>> enemies;
 
 	UI ui;
+	ui.main_menu();
 	Player player;
-	Mapa mapa(textures, player);
+	Mapa mapa(textures, ui);
 
 
 	//Setting a clock
@@ -121,7 +122,7 @@ int main() {
 			{
 				if(event.mouseButton.button == sf::Mouse::Left)
 				{
-					player.mouseHandling(event.mouseButton.x, event.mouseButton.y);
+					ui.mouseHandling(event.mouseButton.x, event.mouseButton.y);
 				}
 			}
 			/*if(event.type == sf::Event::MouseButtonReleased)
@@ -178,7 +179,14 @@ int main() {
 		// clear the window with black color
 		window.clear(sf::Color(180, 180, 180));
 
-		mapa.step(window);
+		if(ui.get_scene() == mai)
+		{
+			ui.step(window);
+		}
+		else if(ui.get_scene() == battle)
+		{
+			mapa.step(window);
+		}
 
 		window.display();
 	}
