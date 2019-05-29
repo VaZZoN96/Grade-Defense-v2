@@ -90,16 +90,21 @@ void Mapa::step(sf::RenderWindow &window)
 					{
 						//hide tower menu
 						//show build menu
+						ui_.set_active(build);
+						//send tile x and y
+
 					}
 					else if( (tile.get_type() >= 4) && (tile.get_type() <= 11) )
 					{
 						//hide build menu
 						//show tower menu
+						ui_.set_active(tower);
 					}
 					else
 					{
 						//hide build menu
 						//hide tower menu
+						ui_.set_active(none);
 					}
 				}
 			}
