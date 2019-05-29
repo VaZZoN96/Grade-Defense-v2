@@ -14,6 +14,13 @@
 DONE
 
 
+IN PROGRESS
+UI class
+Mapa class
+Map_tile class
+Button class
+
+
 TODO
 Entity class
 Unit class
@@ -31,6 +38,8 @@ Tower stats
 UI
 
 Opisać typy
+Change UI menus functions to creators
+If built a tower then set tile type to correspondend one
 
 Procedural, random or predefined map creating
 Damage dealing, money receiving, hp decreasing for units
@@ -98,6 +107,8 @@ int main() {
 
 	UI ui;
 	ui.main_menu();
+	ui.build_menu();
+	ui.tower_menu();
 	Player player;
 	Mapa mapa(textures, ui);
 
@@ -185,6 +196,7 @@ int main() {
 		}
 		else if(ui.get_scene() == battle)
 		{
+			ui.step(window);
 			mapa.step(window);
 		}
 
