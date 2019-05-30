@@ -19,12 +19,14 @@ UI class
 Mapa class
 Map_tile class
 Button class
+Tower class
+UI
+If built a tower then set tile type to correspondend one
 
 
 TODO
 Entity class
 Unit class
-Tower class
 Player class
 Base class
 
@@ -33,18 +35,13 @@ Mouse event
 Unit stats
 Tower stats
 
-20x20 Map class
-
-UI
-
 Opisać typy
 Change UI menus functions to creators
-If built a tower then set tile type to correspondend one
 
 Procedural, random or predefined map creating
 Damage dealing, money receiving, hp decreasing for units
 Hp decreasing for players base
-Collision detection
+Collision detection???
 */
 
 int main() {
@@ -70,7 +67,7 @@ int main() {
 		textures.emplace_back(tx_tile_spawn);
 
 		sf::Texture tx_tile_machine;
-		if(!tx_tile_machine.loadFromFile("texture/tile_place.png")){}
+		if(!tx_tile_machine.loadFromFile("texture/tile_machine.png")){}
 		textures.emplace_back(tx_tile_machine);
 
 		sf::Texture tx_tile_rocket;
@@ -104,21 +101,24 @@ int main() {
 
 	std::vector<std::unique_ptr<Tower>> towers;
 	std::vector<std::unique_ptr<Unit>> enemies;
+	std::vector<std::shared_ptr<Map_tile>> tiles;
 
-	UI ui;
+	UI ui(towers, enemies, tiles);
 	ui.main_menu();
 	ui.build_menu();
 	ui.tower_menu();
 	Player player;
-	Mapa mapa(textures, ui);
+	Mapa mapa(textures, ui, tiles);
 
 
 	//Setting a clock
 	sf::Clock clock;
-	sf::Time t;
+	sf::Time elapsed_time;
 
 	// run the program as long as the window is open
 	while (window.isOpen()) {
+		elapsed_time = clock.getElapsedTime();
+		//std::cout<<elapsed_time.asMicroseconds()<<" "<<1/elapsed_time.asSeconds()<<std::endl;
 		clock.restart();
 
 		// check all the window's events that were triggered since the last iteration of the loop
