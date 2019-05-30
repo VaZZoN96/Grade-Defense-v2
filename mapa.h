@@ -8,13 +8,12 @@
 class Mapa
 {
 public:
-	Mapa(std::vector<sf::Texture> &textures, UI &ui);
+	Mapa(std::vector<sf::Texture> &textures, UI &ui, std::vector<std::shared_ptr<Map_tile>> &tiles);
 	void ver1();
 	void step(sf::RenderWindow &window);
-	std::vector<std::unique_ptr<Map_tile>> const& getTiles();
 private:
 	std::vector<sf::Texture> &textures_;
-	std::vector<std::unique_ptr<Map_tile>> tiles_;
+	std::vector<std::shared_ptr<Map_tile>> &tiles_;
 	UI &ui_;
 };
 
