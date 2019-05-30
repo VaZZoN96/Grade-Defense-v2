@@ -1,6 +1,7 @@
 #include "tower.h"
 
-Tower::Tower()
+Tower::Tower(Type type)
+	: type_(type)
 {
 
 }
