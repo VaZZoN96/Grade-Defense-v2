@@ -3,6 +3,7 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include "tower.h"
 
 enum Button_function { new_game, options,
 					   machine, rocket, light, laser, flame, gauss, slower, emp,
@@ -14,6 +15,7 @@ public:
 	Button(float x, float y, int width, int height, Button_function func);
 	virtual ~Button();
 	Button_function get_button_function();
+	Type change_type(Button_function func);
 private:
 	float x_;
 	float y_;

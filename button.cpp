@@ -14,3 +14,19 @@ Button_function Button::get_button_function()
 {
 	return func_;
 }
+
+Type Button::change_type(Button_function func)
+{
+	switch(func)
+	{
+		case machine: return t_machine;
+		case rocket: return t_rocket;
+		case light: return t_light;
+		case laser: return t_laser;
+		case flame: return t_flame;
+		case gauss: return t_gauss;
+		case slower: return t_slower;
+		case emp: return t_emp;
+		default: return nothing;
+	}
+}
