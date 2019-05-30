@@ -1,6 +1,7 @@
 #include "ui.h"
 
-UI::UI()
+UI::UI(std::vector<std::unique_ptr<Tower>> &towers, std::vector<std::unique_ptr<Unit>> &enemies, std::vector<std::shared_ptr<Map_tile>> &tiles)
+	: towers_(towers), enemies_(enemies), tiles_(tiles)
 {
 
 }
@@ -35,10 +36,10 @@ void UI::main_menu()
 
 void UI::tower_menu()
 {
-	buttons_build_.emplace_back(std::make_unique<Button>(800, 50, 150, 50, att));
-	buttons_build_.emplace_back(std::make_unique<Button>(975, 50, 150, 50, attspeed));
-	buttons_build_.emplace_back(std::make_unique<Button>(800, 125, 150, 50, range));
-	buttons_build_.emplace_back(std::make_unique<Button>(975, 125, 150, 50, rot));
+	buttons_tower_.emplace_back(std::make_unique<Button>(800, 50, 150, 50, att));
+	buttons_tower_.emplace_back(std::make_unique<Button>(975, 50, 150, 50, attspeed));
+	buttons_tower_.emplace_back(std::make_unique<Button>(800, 125, 150, 50, range));
+	buttons_tower_.emplace_back(std::make_unique<Button>(975, 125, 150, 50, rot));
 }
 
 void UI::build_menu()
@@ -55,12 +56,13 @@ void UI::build_menu()
 
 void UI::step(sf::RenderWindow &window)
 {
-	std::cout<<active_<<std::endl;
+	//std::cout<<active_<<std::endl;
 	if(active_ == mai)
 	{
 		for(unsigned int i=0; i<buttons_main_.size(); i++)
 		{
 			Button &buttons = dynamic_cast<Button &>(*buttons_main_[i]);
+			window.draw(buttons);
 
 			if(get_mouse_button_pushed() == 1)
 			{
@@ -80,8 +82,6 @@ void UI::step(sf::RenderWindow &window)
 					}
 				}
 			}
-
-			window.draw(buttons);
 		}
 	}
 	else if(active_ == tower)
@@ -89,16 +89,45 @@ void UI::step(sf::RenderWindow &window)
 		for(unsigned int i=0; i<buttons_tower_.size(); i++)
 		{
 			Button &buttons = dynamic_cast<Button &>(*buttons_tower_[i]);
+			buttons.setFillColor(sf::Color(0,0,255));
 			window.draw(buttons);
 		}
 	}
 	else if(active_ == build)
 	{
 		//receive tile x and y and create tower correspondend to button function
+
 		for(unsigned int i=0; i<buttons_build_.size(); i++)
 		{
 			Button &buttons = dynamic_cast<Button &>(*buttons_build_[i]);
+			buttons.setFillColor(sf::Color(0,255,0));
 			window.draw(buttons);
+			if(get_mouse_button_pushed() == 1)
+			{
+				if(get_mouse_cords().x >= buttons.getGlobalBounds().left && get_mouse_cords().x <= buttons.getGlobalBounds().left + buttons.getGlobalBounds().width)
+				{
+					if(get_mouse_cords().y >= buttons.getGlobalBounds().top && get_mouse_cords().y <= buttons.getGlobalBounds().top + buttons.getGlobalBounds().height)
+					{
+						//std::cout<<int( buttons.get_button_function() + 2 )<<" "<<tile_id_<<std::endl;
+						//Map_tile &tile = dynamic_cast<Map_tile &>(*tiles_[tile_id_]);
+						if(tiles_[tile_id_]->get_type() == 0)
+						{
+							std::cout<<"Dodano"<<std::endl;
+							std::cout<<tile_id_<<std::endl;
+							tiles_[tile_id_]->set_type(int( buttons.get_button_function() + 2 ));
+							std::cout<<tiles_[tile_id_]->get_type()<<std::endl;
+							towers_.emplace_back(std::make_unique<Tower>(buttons.change_type(buttons.get_button_function())));
+							active_ = tower;
+							tile_id_ = 0;
+						}
+						else
+						{
+							std::cout<<"ERROR"<<std::endl;
+						}
+						reset_mouse_button_pushed();
+					}
+				}
+			}
 		}
 	}
 }
@@ -116,4 +145,9 @@ Menu UI::get_active()
 void UI::set_active(Menu active)
 {
 	active_ = active;
+}
+
+void UI::receive_tile(unsigned int tile_id)
+{
+	tile_id_ = tile_id;
 }
