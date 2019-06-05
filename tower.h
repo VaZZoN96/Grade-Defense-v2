@@ -12,6 +12,12 @@ class Tower : public Entity
 public:
 	Tower(Type type);
 	virtual ~Tower();
+	float get_dmg();
+	float get_range();
+	float get_cost();
+	float get_at_speed();
+	int get_cont();
+	int get_chains_();
 private:
 	Type type_;
 
@@ -19,7 +25,9 @@ private:
 	float range_;
 	float dmg_;
 	float cost_;
-	float att_speed_;
+	float at_speed_;
+	int cont_ = 0;
+	int chains_ = 0;
 };
 
 #endif // TOWER_H
