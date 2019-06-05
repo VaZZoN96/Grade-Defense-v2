@@ -1,10 +1,15 @@
 #include "button.h"
 
-Button::Button(float x, float y, int width, int height, Button_function func)
-	: sf::RectangleShape(sf::Vector2f(width,height)), x_(x), y_(y), func_(func)
+Button::Button(float x, float y, int width, int height, Button_function func, sf::Font &font,  sf::String txt)
+	: sf::RectangleShape(sf::Vector2f(width,height)), x_(x), y_(y), func_(func), font_(font)
 {
 	setPosition(x,y);
 	setFillColor(sf::Color(255,0,0));
+	text_.setPosition(x+10, y+10);
+	text_.setFont(font_);
+	text_.setString(txt);
+	text_.setCharacterSize(12);
+	text_.setFillColor(sf::Color::Black);
 }
 
 Button::~Button()
@@ -29,4 +34,9 @@ Type Button::change_type(Button_function func)
 		case emp: return t_emp;
 		default: return nothing;
 	}
+}
+
+sf::Text Button::get_text()
+{
+	return text_;
 }
