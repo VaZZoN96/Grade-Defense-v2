@@ -50,7 +50,7 @@ int main() {
 	//window.setFramerateLimit(60);
 	window.setVerticalSyncEnabled(true);
 
-	//test tx
+	//textures
 	std::vector<sf::Texture> textures;
 	{
 		sf::Texture tx_tile; //Tile where player can build
