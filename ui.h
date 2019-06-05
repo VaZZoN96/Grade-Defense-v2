@@ -40,6 +40,7 @@ private:
 	std::vector<std::unique_ptr<Unit>> &enemies_;
 	std::vector<std::shared_ptr<Map_tile>> &tiles_;
 	unsigned int tile_id_ = 0;
+	sf::Font font_;
 };
 
 #endif // UI_H

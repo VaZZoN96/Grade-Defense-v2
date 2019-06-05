@@ -3,7 +3,8 @@
 UI::UI(std::vector<std::unique_ptr<Tower>> &towers, std::vector<std::unique_ptr<Unit>> &enemies, std::vector<std::shared_ptr<Map_tile>> &tiles)
 	: towers_(towers), enemies_(enemies), tiles_(tiles)
 {
-
+	//font
+	if(!font_.loadFromFile("ArialCE.ttf")){}
 }
 
 void UI::mouseHandling(float x, float y)
@@ -30,28 +31,28 @@ sf::Vector2f UI::get_mouse_cords()
 
 void UI::main_menu()
 {
-	buttons_main_.emplace_back(std::make_unique<Button>(400, 183, 400, 100, new_game));
-	buttons_main_.emplace_back(std::make_unique<Button>(400, 417, 400, 100, options));
+	buttons_main_.emplace_back(std::make_unique<Button>(400, 183, 400, 100, new_game, font_, "New game"));
+	buttons_main_.emplace_back(std::make_unique<Button>(400, 417, 400, 100, options, font_, "Options"));
 }
 
 void UI::tower_menu()
 {
-	buttons_tower_.emplace_back(std::make_unique<Button>(800, 50, 150, 50, att));
-	buttons_tower_.emplace_back(std::make_unique<Button>(975, 50, 150, 50, attspeed));
-	buttons_tower_.emplace_back(std::make_unique<Button>(800, 125, 150, 50, range));
-	buttons_tower_.emplace_back(std::make_unique<Button>(975, 125, 150, 50, rot));
+	buttons_tower_.emplace_back(std::make_unique<Button>(800, 50, 150, 50, att, font_, "ATT+"));
+	buttons_tower_.emplace_back(std::make_unique<Button>(975, 50, 150, 50, attspeed, font_, "ATT SPEED+"));
+	buttons_tower_.emplace_back(std::make_unique<Button>(800, 125, 150, 50, range, font_, "RANGE+"));
+	buttons_tower_.emplace_back(std::make_unique<Button>(975, 125, 150, 50, rot, font_, "ROT + PROJECT+"));
 }
 
 void UI::build_menu()
 {
-	buttons_build_.emplace_back(std::make_unique<Button>(800, 50, 150, 50, machine));
-	buttons_build_.emplace_back(std::make_unique<Button>(975, 50, 150, 50, rocket));
-	buttons_build_.emplace_back(std::make_unique<Button>(800, 125, 150, 50, light));
-	buttons_build_.emplace_back(std::make_unique<Button>(975, 125, 150, 50, laser));
-	buttons_build_.emplace_back(std::make_unique<Button>(800, 200, 150, 50, flame));
-	buttons_build_.emplace_back(std::make_unique<Button>(975, 200, 150, 50, gauss));
-	buttons_build_.emplace_back(std::make_unique<Button>(800, 275, 150, 50, slower));
-	buttons_build_.emplace_back(std::make_unique<Button>(975, 275, 150, 50, emp));
+	buttons_build_.emplace_back(std::make_unique<Button>(800, 50, 150, 50, machine, font_, "Machine"));
+	buttons_build_.emplace_back(std::make_unique<Button>(975, 50, 150, 50, rocket, font_, "Rocket"));
+	buttons_build_.emplace_back(std::make_unique<Button>(800, 125, 150, 50, light, font_, "Lightning"));
+	buttons_build_.emplace_back(std::make_unique<Button>(975, 125, 150, 50, laser, font_, "Laser"));
+	buttons_build_.emplace_back(std::make_unique<Button>(800, 200, 150, 50, flame, font_, "Flamethrower"));
+	buttons_build_.emplace_back(std::make_unique<Button>(975, 200, 150, 50, gauss, font_, "Gauss"));
+	buttons_build_.emplace_back(std::make_unique<Button>(800, 275, 150, 50, slower, font_, "Slower"));
+	buttons_build_.emplace_back(std::make_unique<Button>(975, 275, 150, 50, emp, font_, "EMP"));
 }
 
 void UI::step(sf::RenderWindow &window)
@@ -63,6 +64,7 @@ void UI::step(sf::RenderWindow &window)
 		{
 			Button &buttons = dynamic_cast<Button &>(*buttons_main_[i]);
 			window.draw(buttons);
+			window.draw(buttons.get_text());
 
 			if(get_mouse_button_pushed() == 1)
 			{
@@ -89,8 +91,9 @@ void UI::step(sf::RenderWindow &window)
 		for(unsigned int i=0; i<buttons_tower_.size(); i++)
 		{
 			Button &buttons = dynamic_cast<Button &>(*buttons_tower_[i]);
-			buttons.setFillColor(sf::Color(0,0,255));
+			buttons.setFillColor(sf::Color(255,50,10));
 			window.draw(buttons);
+			window.draw(buttons.get_text());
 		}
 	}
 	else if(active_ == build)
@@ -102,6 +105,7 @@ void UI::step(sf::RenderWindow &window)
 			Button &buttons = dynamic_cast<Button &>(*buttons_build_[i]);
 			buttons.setFillColor(sf::Color(0,255,0));
 			window.draw(buttons);
+			window.draw(buttons.get_text());
 			if(get_mouse_button_pushed() == 1)
 			{
 				if(get_mouse_cords().x >= buttons.getGlobalBounds().left && get_mouse_cords().x <= buttons.getGlobalBounds().left + buttons.getGlobalBounds().width)
