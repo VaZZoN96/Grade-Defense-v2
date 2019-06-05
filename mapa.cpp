@@ -99,7 +99,6 @@ void Mapa::step(sf::RenderWindow &window)
 						//hide build menu
 						//show tower menu
 						ui_.set_active(tower);
-						std::cout<<"WCHODZI"<<std::endl;
 					}
 					else
 					{
