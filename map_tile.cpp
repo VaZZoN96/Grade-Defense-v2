@@ -1,10 +1,13 @@
 #include "map_tile.h"
 
-Map_tile::Map_tile(unsigned int id, int xid, int yid, unsigned int type, std::vector<sf::Texture> textures)
-	: id_(id), xid_(xid), x_(xid*30+10), yid_(yid), y_(yid*30+10), type_(type), textures_(textures)
+Map_tile::Map_tile(unsigned int id, int xid, int yid, unsigned int type, std::vector<sf::Texture> &textures)
+	: xid_(xid), x_(xid*50+10), yid_(yid), y_(yid*50+10), type_(type), textures_(textures), id_(id)
 {
-	setTexture(textures_[type_]);
-	setTextureRect(sf::IntRect(0,0,25,25));
+	if(type_ != 20)
+		setTexture(textures_[type_]);
+	else
+		setTexture(textures_[type_]);//test
+	setTextureRect(sf::IntRect(0,0,50,50));
 	setPosition(x_, y_);
 }
 

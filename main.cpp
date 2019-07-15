@@ -99,16 +99,32 @@ int main() {
 		textures.emplace_back(tx_tile_stun);
 	}
 
-	std::vector<std::unique_ptr<Tower>> towers;
-	std::vector<std::unique_ptr<Unit>> enemies;
+	std::vector<sf::Texture> textures_unit;
+	{
+		sf::Texture tx_normal;
+		if(!tx_normal.loadFromFile("texture/normal.png")){}
+		textures_unit.emplace_back(tx_normal);
+
+		sf::Texture tx_fast;
+		if(!tx_fast.loadFromFile("texture/fast.png")){}
+		textures_unit.emplace_back(tx_fast);
+
+		sf::Texture tx_tank;
+		if(!tx_tank.loadFromFile("texture/tank.png")){}
+		textures_unit.emplace_back(tx_tank);
+	}
+
+	std::vector<std::shared_ptr<Tower>> towers;
+	std::vector<std::shared_ptr<Unit>> enemies;
 	std::vector<std::shared_ptr<Map_tile>> tiles;
 
-	UI ui(towers, enemies, tiles);
+	Player player;
+	UI ui(towers, enemies, tiles, player);
 	ui.main_menu();
+	ui.wave_menu();
 	ui.build_menu();
 	ui.tower_menu();
-	Player player;
-	Mapa mapa(textures, ui, tiles);
+	Mapa mapa(textures, textures_unit, enemies, ui, tiles, towers, player);
 
 
 	//Setting a clock
@@ -136,59 +152,12 @@ int main() {
 					ui.mouseHandling(event.mouseButton.x, event.mouseButton.y);
 				}
 			}
-			/*if(event.type == sf::Event::MouseButtonReleased)
-				if(event.mouseButton.button == sf::Mouse::Left)
-					if(event.mouseButton.x >= 10 && event.mouseButton.x <= 35)
-						if(event.mouseButton.y >= 50 && event.mouseButton.y <= 75)
-						{
-							if(p1.get_money() >= 75)
-							{
-								Unit unit(p1, 1, tx_melee);
-								p1_unit.push_back(unit);
-							}
-						}
-			if(event.type == sf::Event::MouseButtonReleased)
-				if(event.mouseButton.button == sf::Mouse::Left)
-					if(event.mouseButton.x >= 40 && event.mouseButton.x <= 65)
-						if(event.mouseButton.y >= 50 && event.mouseButton.y <= 75)
-						{
-							if(p1.get_money() >= 125)
-							{
-								Unit unit(p1, 2, tx_ranged);
-								p1_unit.push_back(unit);
-							}
-						}
-			if(event.type == sf::Event::MouseButtonReleased)
-				if(event.mouseButton.button == sf::Mouse::Left)
-					if(event.mouseButton.x >= 70 && event.mouseButton.x <= 95)
-						if(event.mouseButton.y >= 50 && event.mouseButton.y <= 75)
-						{
-							if(p1.get_money() >= 200)
-							{
-								Unit unit(p1, 3, tx_tank);
-								p1_unit.push_back(unit);
-							}
-						}
-			if(event.type == sf::Event::MouseButtonReleased)
-				if(event.mouseButton.button == sf::Mouse::Left)
-					if(event.mouseButton.x >= 100 && event.mouseButton.x <= 125)
-						if(event.mouseButton.y >= 50 && event.mouseButton.y <= 75)
-						{
-							//lvl up
-						}
-			//Testing
-			if(event.type == sf::Event::KeyPressed)
-			{
-				if(event.key.code == sf::Keyboard::Num1)
-				{
-					Unit unit(p2, 1, tx_melee);
-					p2_unit.push_back(unit);
-				}
-			}*/
 		}
 
 		// clear the window with black color
 		window.clear(sf::Color(180, 180, 180));
+
+		elapsed_time = clock.getElapsedTime();
 
 		if(ui.get_scene() == mai)
 		{
@@ -197,7 +166,7 @@ int main() {
 		else if(ui.get_scene() == battle)
 		{
 			ui.step(window);
-			mapa.step(window);
+			mapa.step(window, elapsed_time.asSeconds());
 		}
 
 		window.display();

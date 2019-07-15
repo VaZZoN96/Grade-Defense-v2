@@ -6,7 +6,7 @@
 #include <memory>
 
 /*
-ID - Description
+Type - Description
 0 - Player can build
 1 - Enemy path
 2 - Player base
@@ -19,12 +19,16 @@ ID - Description
 9 - Gauss
 10 - Slower
 11 - Stun gun
+
+id = yid * 10 + xid
 */
+
+
 
 class Map_tile : public sf::Sprite
 {
 public:
-	Map_tile(unsigned int id, int xid, int yid, unsigned int type, std::vector<sf::Texture> textures);
+	Map_tile(unsigned int id, int xid, int yid, unsigned int type, std::vector<sf::Texture> &textures);
 	virtual ~Map_tile();
 	int get_xid();
 	int get_yid();
@@ -39,7 +43,7 @@ private:
 	int yid_;
 	int y_;
 	unsigned int type_;
-	std::vector<sf::Texture> textures_;
+	std::vector<sf::Texture> &textures_;
 	unsigned int id_;
 };
 

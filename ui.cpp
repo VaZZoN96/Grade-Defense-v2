@@ -1,7 +1,7 @@
 #include "ui.h"
 
-UI::UI(std::vector<std::unique_ptr<Tower>> &towers, std::vector<std::unique_ptr<Unit>> &enemies, std::vector<std::shared_ptr<Map_tile>> &tiles)
-	: towers_(towers), enemies_(enemies), tiles_(tiles)
+UI::UI(std::vector<std::shared_ptr<Tower>> &towers, std::vector<std::shared_ptr<Unit>> &enemies, std::vector<std::shared_ptr<Map_tile>> &tiles, Player &player)
+	: towers_(towers), enemies_(enemies), tiles_(tiles), player_(player)
 {
 	//font
 	if(!font_.loadFromFile("ArialCE.ttf")){}
@@ -33,6 +33,11 @@ void UI::main_menu()
 {
 	buttons_main_.emplace_back(std::make_unique<Button>(400, 183, 400, 100, new_game, font_, "New game"));
 	buttons_main_.emplace_back(std::make_unique<Button>(400, 417, 400, 100, options, font_, "Options"));
+}
+
+void UI::wave_menu()
+{
+	buttons_wave_.emplace_back(std::make_unique<Button>(10, 600, 150, 50, options, font_, "Start"));
 }
 
 void UI::tower_menu()
@@ -99,7 +104,6 @@ void UI::step(sf::RenderWindow &window)
 	else if(active_ == build)
 	{
 		//receive tile x and y and create tower correspondend to button function
-
 		for(unsigned int i=0; i<buttons_build_.size(); i++)
 		{
 			Button &buttons = dynamic_cast<Button &>(*buttons_build_[i]);
@@ -116,18 +120,39 @@ void UI::step(sf::RenderWindow &window)
 						//Map_tile &tile = dynamic_cast<Map_tile &>(*tiles_[tile_id_]);
 						if(tiles_[tile_id_]->get_type() == 0)
 						{
-							std::cout<<"Dodano"<<std::endl;
-							std::cout<<tile_id_<<std::endl;
 							tiles_[tile_id_]->set_type(int( buttons.get_button_function() + 2 ));
-							std::cout<<tiles_[tile_id_]->get_type()<<std::endl;
-							towers_.emplace_back(std::make_unique<Tower>(buttons.change_type(buttons.get_button_function())));
+							towers_.emplace_back(std::make_unique<Tower>( buttons.change_type(buttons.get_button_function()), tiles_[tile_id_]->get_xid(), tiles_[tile_id_]->get_yid() ));
 							active_ = tower;
 							tile_id_ = 0;
+							player_.set_money(player_.get_money() - towers_[towers_.size() - 1]->get_cost());
 						}
 						else
 						{
 							std::cout<<"ERROR"<<std::endl;
 						}
+						reset_mouse_button_pushed();
+					}
+				}
+			}
+		}
+	}
+	if(active_ != mai)
+	{
+		for(unsigned int i=0; i<buttons_wave_.size(); i++)
+		{
+			Button &buttons = dynamic_cast<Button &>(*buttons_wave_[i]);
+			buttons.setFillColor(sf::Color(255,50,10));
+			window.draw(buttons);
+			window.draw(buttons.get_text());
+
+			if(get_mouse_button_pushed() == 1)
+			{
+				if(get_mouse_cords().x >= buttons.getGlobalBounds().left && get_mouse_cords().x <= buttons.getGlobalBounds().left + buttons.getGlobalBounds().width)
+				{
+					if(get_mouse_cords().y >= buttons.getGlobalBounds().top && get_mouse_cords().y <= buttons.getGlobalBounds().top + buttons.getGlobalBounds().height)
+					{
+						next_wave_ = 1;
+
 						reset_mouse_button_pushed();
 					}
 				}
@@ -154,4 +179,14 @@ void UI::set_active(Menu active)
 void UI::receive_tile(unsigned int tile_id)
 {
 	tile_id_ = tile_id;
+}
+
+int UI::get_next_wave()
+{
+	return next_wave_;
+}
+
+void UI::set_next_wave(int next_wave)
+{
+	next_wave_ = next_wave;
 }

@@ -1,14 +1,16 @@
 #include "tower.h"
 
-Tower::Tower(Type type)
-	: type_(type)
+Tower::Tower(Type type, int xid, int yid)
+	: type_(type), xid_(xid), yid_(yid)
 {
+	x_ = xid * 50 + 10;
+	y_ = yid * 50 + 10;
 	if(type == t_machine) //Machine gun
 	{
 		rot_ = 0;
 		range_ = 100;
-		dmg_ = 100;
-		cost_ = 0;
+		dmg_ = 75;
+		cost_ = 100;
 		at_speed_ = 1;
 	}
 	else if(type == t_rocket) //Rocket launcher
@@ -81,7 +83,7 @@ float Tower::get_range()
 	return range_;
 }
 
-float Tower::get_cost()
+int Tower::get_cost()
 {
 	return cost_;
 }
@@ -99,4 +101,14 @@ int Tower::get_cont()
 int Tower::get_chains_()
 {
 	return chains_;
+}
+
+float Tower::get_x()
+{
+	return x_;
+}
+
+float Tower::get_y()
+{
+	return y_;
 }
